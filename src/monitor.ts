@@ -25,7 +25,7 @@ export default class UniswapV2FactoryMonitor {
     discordURL: string
   ) {
     this.log = new Logger();
-    this.provider = new ethers.providers.WebSocketProvider(providerEndpoint);
+    this.provider = new WebSocketProvider(providerEndpoint);
     this.factory = new Contract(contractAddress, uniswapABI);
     this.disordURL = discordURL;
   }
