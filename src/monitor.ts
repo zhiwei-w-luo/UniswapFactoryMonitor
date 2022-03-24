@@ -93,5 +93,19 @@ export default class UniswapV2FactoryMonitor {
         );
       }
     );
+    this.provider._websocket.on("error", async () => {
+      this.log.error(
+        "Unable to connect to provided websocket endpoint...attemping to reconnect"
+      );
+      setTimeout(this.run, 3000);
+    });
+
+    this.provider._websocket.on("close", async (code: any) => {
+      this.log.warn(
+        `Connection lost with code ${code} Attempting to reconnect...`
+      );
+      this.provider._websocket.terminate();
+      setTimeout(this.run, 3000);
+    });
   };
 }
