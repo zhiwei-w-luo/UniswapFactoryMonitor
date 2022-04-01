@@ -10,3 +10,7 @@ export interface DiscordAlertFunction {
 export interface EventListenerFunction {
   (): Promise<void>;
 }
+
+export interface ListenerFunction {
+  (): void;
+}
