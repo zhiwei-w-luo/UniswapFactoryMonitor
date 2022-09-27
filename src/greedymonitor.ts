@@ -3,10 +3,6 @@ import { Logger } from "tslog";
 import erc20ABI from "./contracts/ERC20ABI.json";
 import { tryAndCatch } from "./helpers";
 import axios, { AxiosResponse } from "axios";
-import {
-  EventListenerFunction,
-  ListenerFunction,
-} from "./types/monitor.interfaces";
 
 export class GreedyV2FactoryMonitor {
   log: Logger;
@@ -26,7 +22,7 @@ export class GreedyV2FactoryMonitor {
     this.provider = new ethers.providers.WebSocketProvider(nodeURL);
   }
   //TODO:destructure in more digestable functions and find a better way to do the if checks
-  run: ListenerFunction = (): void => {
+  run = (): void => {
     this.provider.on("pending", async (tx) => {
       try {
         const transaction = await this.provider.getTransaction(tx);

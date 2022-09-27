@@ -4,10 +4,6 @@ import { BigNumber, ethers, Event, Contract } from "ethers";
 import { WebSocketProvider } from "@ethersproject/providers";
 import uniswapABI from "./contracts/uniswapABI.json";
 import erc20ABI from "./contracts/ERC20ABI.json";
-import {
-  EventListenerFunction,
-  DiscordAlertFunction,
-} from "./types/monitor.interfaces";
 import { tryAndCatch } from "./helpers";
 
 export default class UniswapV2FactoryMonitor {
@@ -30,7 +26,7 @@ export default class UniswapV2FactoryMonitor {
     this.disordURL = discordURL;
   }
 
-  sendDiscordNotification: DiscordAlertFunction = async (
+  sendDiscordNotification = async (
     token0: string,
     token1: string,
     pairAddress: string,
@@ -56,6 +52,7 @@ export default class UniswapV2FactoryMonitor {
       token1Contract.name
     );
     if (error2) this.log.error("Error fetching token names");
+    //TODO: change the block explorer according to the chain selected
     const embed = {
       title: `:scales: New Pair created: ${tokenSymbols[0]}/${tokenSymbols[1]}`,
       description: `New pair created between ${tokenNames[0]} and ${tokenNames[1]}
@@ -73,7 +70,7 @@ export default class UniswapV2FactoryMonitor {
     }
   };
 
-  run: EventListenerFunction = async (): Promise<void> => {
+  run = async (): Promise<void> => {
     const filter: ethers.EventFilter = this.factory.filters.PairCreated();
     this.factory.on(
       filter,
